@@ -1,5 +1,6 @@
 require("repl-nvim.builtin.python").runReplBlock(1)
 require("harpoon.term").gotoTerminal(1)
+
 -- local index = vim.api.nvim_exec("echo search('error')", 1)
 -- not working
 -- P(vim.api.nvim_buf_get_lines(0, 0, -1, 0))
@@ -9,3 +10,5 @@ require("harpoon.term").gotoTerminal(1)
 -- if index == "0" then
 -- 	vim.cmd[[q]]
 -- end
+
+P(vim.api.nvim_buf_get_lines(0, -2, -1, 0))

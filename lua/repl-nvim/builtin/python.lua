@@ -1,9 +1,5 @@
 local _opts = require("repl-nvim")._config.python
-
-local M = {
-	was_init = false,
-	previously_indented = false
-}
+local shared = require("repl-nvim.builtin.shared")
 
 local function venvExists()
 	return vim.fn.isdirectory(vim.fn.getcwd() .. "/env") == 1 -- the == 1 here is important for lua
@@ -57,20 +53,6 @@ M.sourceInstallModules = function(term, opts)
 	return res
 end
 
-local lineStartsWithPattern = function(pattern, line, trim_whitespace)
-	local pattern_len = string.len(pattern)
-	assert(pattern_len >= 1)
-	-- removes indentation and other unnecessary whitespace
-	if trim_whitespace == nil then
-		trim_whitespace = true
-	end
-	if trim_whitespace then
-		line = vim.trim(line)
-	end
-	-- print(string.sub(line, 1, pattern_len) == pattern)
-	return string.len(line) >= pattern_len and string.sub(line, 1, pattern_len) == pattern
-end
-
 local lineIsIndented = function (line)
 	local char = string.sub(line, 1, 1)
 	return char == " " or char == '\t'
@@ -94,76 +76,36 @@ local sendLine = function (line, term)
 	end
 
 	if lineIsIndented(line) then
-		M.previously_indented = true
-	elseif M.previously_indented and not blacklist(line) then
+		shared.state["python"].previously_indented = true
+	elseif shared.state["python"].previously_indented and not blacklist(line) then
 		require("harpoon.term").sendCommand(term, "\n")
-		M.previously_indented = false
+		shared.state["python"].previously_indented = false
 	end
 
-	if not lineStartsWithPattern("#", line) then
+	if not shared.lineStartsWithPattern("#", line) then
 		require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\n") -- escaping strings cause % causes problems with harpoon
 	end
 end
 
 M.replInit = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
-	wrapVenvOutput(term, "python3", opts)
-	M.was_init = true
+	return shared.replInit(term, opts, wrapVenvOutput, "python")
 end
 
 -- code for having a jupyter like experience
 M.runReplSelection = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
-	local lower = vim.fn.getpos("v")[2]
-	local upper = vim.fn.getpos(".")[2]
-	if M.was_init == false then
-		M.replInit(term)
-	end
-	if lower > upper then
-		lower, upper = upper, lower
-	end
-	while lower <= upper do
-		sendLine(vim.fn.getline(lower), term)
-		lower = lower + 1
-	end
-	require("harpoon.term").sendCommand(term, "\n")
+	return shared.runReplSelection(term, opts, M.replInit, wrapVenvOutput, sendLine, "python")
 end
 
 M.runReplBlock = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
-	if M.was_init == false then
-		M.replInit(term)
-	end
-	local line_num = vim.fn.getpos(".")[2]
-	while line_num > 1 do
-		if lineStartsWithPattern("##", vim.fn.getline(line_num)) then
-			line_num = line_num + 1
-			break
-		end
-		line_num = line_num - 1
-	end
-	-- P(line_num)
-	-- P(vim.fn.getpos("$")[2])
-	while line_num <= vim.fn.getpos("$")[2] do
-		local line = vim.fn.getline(line_num)
-		if lineStartsWithPattern("##", line) then
-			break
-		else
-			sendLine(line, term)
-		end
-		line_num = line_num + 1;
-	end
-	require("harpoon.term").sendCommand(term, "\n")
+	return shared.runReplBlock(term, opts, M.replInit, sendLine, "python")
 end
 
 M.runReplLineNoIndent = function (term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
-	if M.was_init == false then
-		M.ReplInit(term)
-	end
-	local line = vim.fn.getline(".")
-	line = vim.trim(line)
-	sendLine(line, term)
+	return shared.runReplLineNoIndent(term, opts, M.replInit, sendLine, "python")
 end
 
 return M

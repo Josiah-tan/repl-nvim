@@ -18,17 +18,17 @@
 --     assert.equals(0, bounter)
 --   end)
 -- end)
---
+
 -- describe("some basics2", function()
 -- 	it("some test", function ()
--- 		-- vim.cmd[[new]]
--- 		-- vim.api.nvim_buf_set_lines(0, 0, 0, 0, {"print('hello world')"})
--- 		-- assert.equals("print('hello world')", vim.api.nvim_buf_get_lines(0, 0, 1, 0)[1])
--- 		-- require("python_nvim.builtin").runPythonBlock(1)
--- 		-- local buf1 = vim.api.nvim_get_current_buf()
+-- 		vim.cmd[[new]]
+-- 		vim.api.nvim_buf_set_lines(0, 0, 0, 0, {"print('hello world')"})
+-- 		assert.equals("print('hello world')", vim.api.nvim_buf_get_lines(0, 0, 1, 0)[1])
+-- 		require("repl-nvim.builtin.python").runReplBlock(1)
+-- 		local buf1 = vim.api.nvim_get_current_buf()
 -- 		require("harpoon.term").gotoTerminal(1)
--- 		-- local buf = vim.api.nvim_get_current_buf()
--- 		-- assert.equals(buf1 == buf, false)
+-- 		local buf = vim.api.nvim_get_current_buf()
+-- 		assert.equals(buf1 == buf, false)
 -- 		-- for some strange reason this just doesn't work!!
 -- 		assert.equals("hello world", vim.api.nvim_buf_get_lines(0, 0, 1, 0))
 -- 	end)
