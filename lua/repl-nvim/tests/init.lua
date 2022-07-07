@@ -1,4 +1,4 @@
-require("python_nvim.builtin").runPythonBlock(1)
+require("repl-nvim.builtin.python").runReplBlock(1)
 require("harpoon.term").gotoTerminal(1)
 -- local index = vim.api.nvim_exec("echo search('error')", 1)
 -- not working

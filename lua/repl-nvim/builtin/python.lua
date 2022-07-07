@@ -1,4 +1,4 @@
-local _opts = require("python_nvim")._config
+local _opts = require("repl-nvim")._config.python
 
 local M = {
 	was_init = false,
@@ -105,19 +105,19 @@ local sendLine = function (line, term)
 	end
 end
 
-M.PythonInit = function(term, opts)
+M.replInit = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
 	wrapVenvOutput(term, "python3", opts)
 	M.was_init = true
 end
 
 -- code for having a jupyter like experience
-M.runPythonSelection = function(term, opts)
+M.runReplSelection = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
 	local lower = vim.fn.getpos("v")[2]
 	local upper = vim.fn.getpos(".")[2]
 	if M.was_init == false then
-		M.PythonInit(term)
+		M.replInit(term)
 	end
 	if lower > upper then
 		lower, upper = upper, lower
@@ -129,10 +129,10 @@ M.runPythonSelection = function(term, opts)
 	require("harpoon.term").sendCommand(term, "\n")
 end
 
-M.runPythonBlock = function(term, opts)
+M.runReplBlock = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
 	if M.was_init == false then
-		M.PythonInit(term)
+		M.replInit(term)
 	end
 	local line_num = vim.fn.getpos(".")[2]
 	while line_num > 1 do
@@ -156,10 +156,10 @@ M.runPythonBlock = function(term, opts)
 	require("harpoon.term").sendCommand(term, "\n")
 end
 
-M.runPythonLineNoIndent = function (term, opts)
+M.runReplLineNoIndent = function (term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
 	if M.was_init == false then
-		M.PythonInit(term)
+		M.ReplInit(term)
 	end
 	local line = vim.fn.getline(".")
 	line = vim.trim(line)
