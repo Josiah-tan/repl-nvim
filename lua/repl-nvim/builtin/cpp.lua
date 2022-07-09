@@ -14,14 +14,19 @@ local sendLine = function (line, term)
 	if line == "" then
 		return
 	end
-	if shared.lineStartsWithPattern("/*", line) then
+	-- if shared.lineStartsWithPattern("///", line, 1) then
+	-- 	line = line:match("///(.*)$")
+	-- 	require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\n") -- escaping strings cause % causes problems with harpoon
+	-- 	return
+	-- end
+	if shared.lineStartsWithPattern("/*", line, 1) then
 		shared.state["cpp"].in_comment_block = true;
 	end
-	if shared.lineEndsWithPattern("*/", line) then
+	if shared.lineEndsWithPattern("*/", line, 2) then
 		shared.state["cpp"].in_comment_block = false;
 		return
 	end
-	if not shared.lineStartsWithPattern("//", line) and not shared.state["cpp"].in_comment_block then
+	if not shared.lineStartsWithPattern("//", line, 1) and not shared.state["cpp"].in_comment_block then
 		require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\n") -- escaping strings cause % causes problems with harpoon
 	end
 end

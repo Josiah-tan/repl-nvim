@@ -3,11 +3,9 @@ local M = {}
 local function trimWhitespace(line, trim_whitespace)
   	-- removes indentation and other unnecessary whitespace
   	if trim_whitespace == nil then
-  		trim_whitespace = true
+  		trim_whitespace = 0
   	end
-  	if trim_whitespace then
-  		line = vim.trim(line)
-  	end
+		line = vim.trim(line, trim_whitespace)
 		return line
 end
 
@@ -43,13 +41,7 @@ M.setup = function ()
 end
 
 M.replInit = function(term, opts, wrapVenvOutput, lang)
-	-- print(term)
-	-- print(opts)
-	-- print(lang)
 	wrapVenvOutput(term, opts.repl, opts)
-	-- print(vim.inspect(M))
-	-- print(vim.inspect(M.state))
-	-- print(lang)
 	M.state[lang].was_init = true
 end
 

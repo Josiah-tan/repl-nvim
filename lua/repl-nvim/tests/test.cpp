@@ -18,7 +18,6 @@ using namespace std;
 int main(void){
 	int T;
 	cin >> T;
-	/// 5
 	for (int t=1;t<=T;t++){
 		int ans = 0;
 		cout << "Case #" << t << ans << endl;
