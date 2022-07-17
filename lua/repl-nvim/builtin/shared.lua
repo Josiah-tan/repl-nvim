@@ -89,7 +89,7 @@ M.runReplBlock = function(term, opts, replInit, sendLine, lang)
 end
 
 M.runReplLineNoIndent = function (term, opts, replInit, sendLine, lang)
-	if M[lang].was_init == false then
+	if M.state[lang].was_init == false then
 		replInit(term, opts)
 	end
 	local line = vim.fn.getline(".")
