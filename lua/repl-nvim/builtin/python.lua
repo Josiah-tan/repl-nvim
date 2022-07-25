@@ -9,12 +9,18 @@ local function anacondaVenvExists()
 	return vim.fn.filereadable(vim.fn.getcwd() .. "/environment.yaml") == 1 -- the == 1 here is important for lua
 end
 
+local function toxVenvExists()
+	-- print("hello world")
+	return vim.fn.isdirectory(vim.fn.getcwd() .. "/.tox") == 1
+end
+
 local function getAnacondaVenv()
 	local grep = "grep 'name:' environment.yaml"
 	local phony_removal = "sed 's/name:[ ]*//'"
 	local commands = vim.trim(vim.fn.system(string.format("%s | %s", grep, phony_removal)))
 	return commands
 end
+
 
 
 local function wrapVenvOutput(term, output, opts)
@@ -30,6 +36,10 @@ local function wrapVenvOutput(term, output, opts)
 	elseif anacondaVenvExists() then
 		local name = getAnacondaVenv()
 		return require("harpoon.term").sendCommand(term, "source /root/anaconda3/bin/activate "..name.." && conda activate "..name.." && " .. output .." && conda deactivate \n")
+	elseif toxVenvExists() then
+		local environment = opts.tox_environment
+		-- print("tox environment exists")
+		return require("harpoon.term").sendCommand(term, "source ./.tox/"..environment.."/bin/activate".." && " ..output.." && deactivate \n")
 	else
 		return require("harpoon.term").sendCommand(term, output .. "\n")
 	end

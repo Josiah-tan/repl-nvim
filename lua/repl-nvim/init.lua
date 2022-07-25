@@ -6,7 +6,8 @@ M.setup = function(config)
 	M._config = M._config or {
 		python = {
 			source = "",
-			repl = "python3"
+			repl = "python3",
+			tox_environment = "test_service"
 		},
 		cpp = {
 			source = "",
