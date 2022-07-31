@@ -48,7 +48,7 @@ end
 M.sourceVenv = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
 	local file = vim.fn.expand("%")
-	vim.cmd[[:w]]
+	vim.cmd[[:wa]]
 	wrapVenvOutput(term, string.format("python3 %s", file), opts)
 	require("harpoon.term").gotoTerminal(term)
 end
