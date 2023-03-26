@@ -12,6 +12,10 @@ M.setup = function(config)
 		cpp = {
 			source = "",
 			repl = "cling"
+		},
+		matlab = {
+			source = "",
+			repl = "matlab -nodesktop -nojvm"
 		}
 	}
 	M._config = vim.tbl_deep_extend("force", M._config, config)

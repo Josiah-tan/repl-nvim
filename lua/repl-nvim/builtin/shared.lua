@@ -36,6 +36,10 @@ M.setup = function ()
 		["cpp"] = {
 			was_init = false,
 			in_comment_block = false
+		},
+		["matlab"] = {
+			was_init = false,
+			in_comment_block = false
 		}
 	}
 end
