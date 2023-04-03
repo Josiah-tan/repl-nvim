@@ -111,7 +111,7 @@ end
 
 M.runReplBlock = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
-	return shared.runReplBlock(term, opts, M.replInit, sendLine, "python")
+	return shared.runReplBlock(term, opts, M.replInit, sendLine, "python", "##")
 end
 
 M.runReplLineNoIndent = function (term, opts)

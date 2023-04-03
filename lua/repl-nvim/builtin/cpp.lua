@@ -43,7 +43,7 @@ end
 
 M.runReplBlock = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
-	return shared.runReplBlock(term, opts, M.replInit, sendLine, "cpp")
+	return shared.runReplBlock(term, opts, M.replInit, sendLine, "cpp", "////")
 end
 
 M.runReplLineNoIndent = function (term, opts)

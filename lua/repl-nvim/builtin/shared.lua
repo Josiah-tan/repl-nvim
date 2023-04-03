@@ -66,23 +66,23 @@ M.runReplSelection = function(term, opts, replInit, wrapVenvOutput, sendLine, la
 	require("harpoon.term").sendCommand(term, "\n")
 end
 
-M.runReplBlock = function(term, opts, replInit, sendLine, lang)
+M.runReplBlock = function(term, opts, replInit, sendLine, lang, pattern)
 	if M.state[lang].was_init == false then
 		replInit(term, opts)
 	end
 	local line_num = vim.fn.getpos(".")[2]
-	while line_num > 1 do
-		if M.lineStartsWithPattern("##", vim.fn.getline(line_num)) then
+	while line_num >= 1 do
+		if M.lineStartsWithPattern(pattern, vim.fn.getline(line_num)) then
 			line_num = line_num + 1
 			break
 		end
 		line_num = line_num - 1
 	end
-	-- P(line_num)
-	-- P(vim.fn.getpos("$")[2])
+	P(line_num)
+	P(vim.fn.getpos("$")[2])
 	while line_num <= vim.fn.getpos("$")[2] do
 		local line = vim.fn.getline(line_num)
-		if M.lineStartsWithPattern("##", line) then
+		if M.lineStartsWithPattern(pattern, line) then
 			break
 		else
 			sendLine(line, term)
