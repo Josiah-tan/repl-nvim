@@ -78,8 +78,8 @@ M.runReplBlock = function(term, opts, replInit, sendLine, lang, pattern)
 		end
 		line_num = line_num - 1
 	end
-	P(line_num)
-	P(vim.fn.getpos("$")[2])
+	-- P(line_num)
+	-- P(vim.fn.getpos("$")[2])
 	while line_num <= vim.fn.getpos("$")[2] do
 		local line = vim.fn.getline(line_num)
 		if M.lineStartsWithPattern(pattern, line) then
