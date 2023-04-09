@@ -15,7 +15,7 @@ M.setup = function(config)
 		},
 		matlab = {
 			source = "",
-			repl = "matlab -nodesktop -nojvm"
+			repl = "matlab -nodesktop"
 		}
 	}
 	M._config = vim.tbl_deep_extend("force", M._config, config)
