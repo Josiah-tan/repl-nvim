@@ -35,7 +35,7 @@ M.sourceVenv = function(term, opts)
 	opts = vim.tbl_deep_extend("force", _opts, opts or {})
 	local file = vim.fn.expand("%")
 	vim.cmd[[:wa]]
-	wrapVenvOutput(term, string.format([[matlab -nodisplay -nosplash -r "run('%s');exit;"]], file), opts)
+	wrapVenvOutput(term, string.format([[matlab -nodesktop -nosplash -r "run('%s');exit;"]], file), opts)
 	-- wrapVenvOutput(term, string.format("python3 %s", file), opts)
 	require("harpoon.term").gotoTerminal(term)
 end
