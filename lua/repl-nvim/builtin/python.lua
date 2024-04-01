@@ -1,5 +1,6 @@
 local _opts = require("repl-nvim")._config.python
 local shared = require("repl-nvim.builtin.shared")
+local M = {}
 
 local function venvExists()
 	return vim.fn.isdirectory(vim.fn.getcwd() .. "/env") == 1 -- the == 1 here is important for lua

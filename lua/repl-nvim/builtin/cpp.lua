@@ -1,5 +1,6 @@
 local _opts = require("repl-nvim")._config.cpp
 local shared = require("repl-nvim.builtin.shared")
+local M = {}
 
 
 local function wrapVenvOutput(term, output, opts)
