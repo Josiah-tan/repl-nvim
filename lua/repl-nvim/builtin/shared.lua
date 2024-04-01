@@ -5,8 +5,9 @@ local function trimWhitespace(line, trim_whitespace)
   	if trim_whitespace == nil then
   		trim_whitespace = 0
   	end
-		line = vim.trim(line, trim_whitespace)
-		return line
+	-- note that fn uses 0, 1 and 2 to denote where to trim
+	line = vim.fn.trim(line, trim_whitespace)
+	return line
 end
 
 
