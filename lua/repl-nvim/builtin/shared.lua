@@ -6,7 +6,7 @@ local function trimWhitespace(line, trim_whitespace)
   		trim_whitespace = 0
   	end
 	-- note that fn uses 0, 1 and 2 to denote where to trim
-	line = vim.fn.trim(line, trim_whitespace)
+	line = vim.fn.trim(line, " ", trim_whitespace)
 	return line
 end
 
@@ -64,7 +64,7 @@ M.runReplSelection = function(term, opts, replInit, wrapVenvOutput, sendLine, la
 		sendLine(vim.fn.getline(lower), term, lang)
 		lower = lower + 1
 	end
-	require("harpoon.term").sendCommand(term, "\n")
+	require("harpoon.term").sendCommand(term, "\r")
 end
 
 M.runReplBlock = function(term, opts, replInit, sendLine, lang, pattern)
@@ -90,7 +90,7 @@ M.runReplBlock = function(term, opts, replInit, sendLine, lang, pattern)
 		end
 		line_num = line_num + 1;
 	end
-	require("harpoon.term").sendCommand(term, "\n")
+	require("harpoon.term").sendCommand(term, "\r")
 end
 
 M.runReplLineNoIndent = function (term, opts, replInit, sendLine, lang)

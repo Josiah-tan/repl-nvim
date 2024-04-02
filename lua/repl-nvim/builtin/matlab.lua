@@ -6,7 +6,7 @@ local function wrapVenvOutput(term, output, opts)
 	if opts.source ~= "" then
 		print("have not implemented sources yet")
 	else
-		return require("harpoon.term").sendCommand(term, output .. "\n")
+		return require("harpoon.term").sendCommand(term, output .. "\r")
 	end
 end
 
@@ -16,7 +16,7 @@ local sendLine = function (line, term)
 	end
 	-- if shared.lineStartsWithPattern("///", line, 1) then
 	-- 	line = line:match("///(.*)$")
-	-- 	require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\n") -- escaping strings cause % causes problems with harpoon
+	-- 	require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\r") -- escaping strings cause % causes problems with harpoon
 	-- 	return
 	-- end
 	if shared.lineStartsWithPattern("%{", line, 1) then
@@ -27,7 +27,7 @@ local sendLine = function (line, term)
 		return
 	end
 	if not shared.lineStartsWithPattern("%", line, 1) and not shared.state["matlab"].in_comment_block then
-		require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\n") -- escaping strings cause % causes problems with harpoon
+		require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\r") -- escaping strings cause % causes problems with harpoon
 	end
 end
 

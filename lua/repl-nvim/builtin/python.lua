@@ -27,22 +27,22 @@ end
 local function wrapVenvOutput(term, output, opts)
 	if opts.source ~= "" then
 		local source = vim.trim(opts.source)
-		return require("harpoon.term").sendCommand(term, "%s %s && %s && %s\n", "source", source, output, "deactivate")
+		return require("harpoon.term").sendCommand(term, "%s %s && %s && %s\r", "source", source, output, "deactivate")
 	elseif venvExists() then
-		return require("harpoon.term").sendCommand(term, "%s && %s && %s\n", "source env/bin/activate", output, "deactivate")
+		return require("harpoon.term").sendCommand(term, "%s && %s && %s\r", "source env/bin/activate", output, "deactivate")
 	-- else
-		-- return require("harpoon.term").sendCommand(term, output .. "\n")
+		-- return require("harpoon.term").sendCommand(term, output .. "\r")
 
 	-- source /root/anaconda3/bin/activate wmanalysis && conda activate wmanalysis && python3 -m automation_scripts.update_all.py && conda deactivate
 	elseif anacondaVenvExists() then
 		local name = getAnacondaVenv()
-		return require("harpoon.term").sendCommand(term, "source /root/anaconda3/bin/activate "..name.." && conda activate "..name.." && " .. output .." && conda deactivate \n")
+		return require("harpoon.term").sendCommand(term, "source /root/anaconda3/bin/activate "..name.." && conda activate "..name.." && " .. output .." && conda deactivate \r")
 	elseif toxVenvExists() then
 		local environment = opts.tox_environment
 		-- print("tox environment exists")
-		return require("harpoon.term").sendCommand(term, "source ./.tox/"..environment.."/bin/activate".." && " ..output.." && deactivate \n")
+		return require("harpoon.term").sendCommand(term, "source ./.tox/"..environment.."/bin/activate".." && " ..output.." && deactivate \r")
 	else
-		return require("harpoon.term").sendCommand(term, output .. "\n")
+		return require("harpoon.term").sendCommand(term, output .. "\r")
 	end
 end
 
@@ -90,12 +90,12 @@ local sendLine = function (line, term)
 	if lineIsIndented(line) then
 		shared.state["python"].previously_indented = true
 	elseif shared.state["python"].previously_indented and not blacklist(line) then
-		require("harpoon.term").sendCommand(term, "\n")
+		require("harpoon.term").sendCommand(term, "\r")
 		shared.state["python"].previously_indented = false
 	end
 
 	if not shared.lineStartsWithPattern("#", line) then
-		require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\n") -- escaping strings cause % causes problems with harpoon
+		require("harpoon.term").sendCommand(term, (vim.fn.substitute(line, "%", "%%", "g")) .. "\r") -- escaping strings cause % causes problems with harpoon
 	end
 end
 
