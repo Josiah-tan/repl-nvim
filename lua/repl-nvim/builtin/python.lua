@@ -27,7 +27,11 @@ end
 local function wrapVenvOutput(term, output, opts)
 	if opts.source ~= "" then
 		local source = vim.trim(opts.source)
-		return require("harpoon.term").sendCommand(term, "%s %s && %s && %s\r", "source", source, output, "deactivate")
+		if vim.fn.has('linux') == 1 then
+			return require("harpoon.term").sendCommand(term, "%s %s && %s && %s\r", "source", source, output, "deactivate")
+		else
+			return require("harpoon.term").sendCommand(term, "\"%s\" && %s && %s\r", source, output, "deactivate")
+		end
 	elseif venvExists() then
 		return require("harpoon.term").sendCommand(term, "%s && %s && %s\r", "source env/bin/activate", output, "deactivate")
 	-- else
