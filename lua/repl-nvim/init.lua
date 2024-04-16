@@ -5,16 +5,16 @@ M.setup = function(config)
 	config = config or {}
 	M._config = M._config or {
 		python = {
-			source = "",
+			getSource = function() return "" end,
 			repl = "python3",
 			tox_environment = "test_service"
 		},
 		cpp = {
-			source = "",
+			getSource = function() return "" end,
 			repl = "cling"
 		},
 		matlab = {
-			source = "",
+			getSource = function() return "" end,
 			repl = "matlab -nodesktop"
 		}
 	}

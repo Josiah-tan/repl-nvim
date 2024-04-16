@@ -3,7 +3,8 @@ local shared = require("repl-nvim.builtin.shared")
 local M = {}
 
 local function wrapVenvOutput(term, output, opts)
-	if opts.source ~= "" then
+	local source = vim.trim(opts.getSource())
+	if source ~= "" then
 		print("have not implemented sources yet")
 	else
 		return require("harpoon.term").sendCommand(term, output .. "\r")

@@ -4,7 +4,7 @@ local M = {}
 
 
 local function wrapVenvOutput(term, output, opts)
-	if opts.source ~= "" then
+	if vim.trim(opts.getSource()) ~= "" then
 		print("have not implemented sources yet")
 	else
 		return require("harpoon.term").sendCommand(term, output .. "\n")
